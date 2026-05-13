@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // Ensure these paths match your actual file structure
-import 'viewmodel/home_view_model.dart'; 
+import 'viewmodel/home_viewmodel.dart'; 
 import 'views/home_view/home_view.dart';
 
-void main() {
+/*void main() {
   runApp(
     // MultiProvider allows you to add more ViewModels (like AuthViewModel) later
     MultiProvider(
@@ -33,4 +33,31 @@ class StudentPortalApp extends StatelessWidget {
       home: HomeScreen(), 
     );
   }
+}*/
+
+void main() async {
+WidgetsFlutterBinding.ensureInitialized();
+// Initialize Supabase with your credentials
+await Supabase.initialize(
+url: 'YOUR_SUPABASE_URL', // From Project Settings > API
+anonKey: 'YOUR_ANON_KEY', // From Project Settings > API
+);
+runApp(const MyApp());
+}
+class MyApp extends StatelessWidget {
+const MyApp({super.key});
+@override
+Widget build(BuildContext context) {
+return MultiProvider(
+providers: [
+ChangeNotifierProvider(create: (_) => AuthViewModel()),
+ChangeNotifierProvider(create: (_) => StudentViewModel()),
+],
+child: MaterialApp(
+debugShowCheckedModeBanner: false,
+title: 'Student Manager',
+home: const AuthWrapper(), // AuthWrapper decides login or home
+),
+);
+}
 }
