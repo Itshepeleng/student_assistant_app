@@ -3,6 +3,9 @@ import 'package:provider/provider.dart';
 // Ensure these paths match your actual file structure
 import 'viewmodel/home_viewmodel.dart'; 
 import 'views/home_view/home_view.dart';
+import 'viewmodel/auth_viewmodel.dart';
+import 'views/student_details_page.dart';
+import 'viewmodel/student_viewmodel.dart';
 
 /*void main() {
   runApp(

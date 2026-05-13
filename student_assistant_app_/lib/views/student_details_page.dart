@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_assistant_app_/viewmodel/student_viewmodel.dart';
-import '../viewmodels/student_viewmodel.dart';
-import '../models/student.dart';
+import 'package:student_assistant_app_/models/student.dart';
+import 'package:student_assistant_app_/viewmodel/auth_viewmodel.dart';
 
 class StudentDetailsPage extends StatelessWidget {
   final Student student;
