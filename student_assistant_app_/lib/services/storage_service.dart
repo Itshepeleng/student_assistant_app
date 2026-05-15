@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 class StorageService {
   final SupabaseClient _supabase = Supabase.instance.client;
   static const String _bucketName = 'student_profiles';
-// Pick image from gallery or camera
+  // Pick image from gallery or camera
   static Future<File?> pickImage(ImageSource source) async {
     final picker = ImagePicker();
     try {
@@ -21,20 +21,22 @@ class StorageService {
     }
   }
 
-// Upload profile picture to Supabase Storage
+  // Upload profile picture to Supabase Storage
   Future<String?> uploadProfilePicture(String studentId, File imageFile) async {
     try {
-// Create unique file name
+      // Create unique file name
       final fileExt = imageFile.path.split('.').last;
       final fileName =
           '$studentId/${DateTime.now().millisecondsSinceEpoch}.$fileExt';
-// Upload to bucket
-      await _supabase.storage.from(_bucketName).upload(
+      // Upload to bucket
+      await _supabase.storage
+          .from(_bucketName)
+          .upload(
             fileName,
             imageFile,
             fileOptions: const FileOptions(cacheControl: '3600', upsert: true),
           );
-// Get public URL (since bucket is public)
+      // Get public URL (since bucket is public)
       return _supabase.storage.from(_bucketName).getPublicUrl(fileName);
     } catch (e) {
       print('Upload error: $e');
@@ -42,10 +44,10 @@ class StorageService {
     }
   }
 
-// Delete profile picture
+  // Delete profile picture
   Future<bool> deleteProfilePicture(String imageUrl) async {
     try {
-// Extract file path from URL
+      // Extract file path from URL
       final uri = Uri.parse(imageUrl);
       final pathSegments = uri.pathSegments;
       final filePath = pathSegments.sublist(3).join('/');
