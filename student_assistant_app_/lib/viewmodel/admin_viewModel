@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/student_model.dart';
 
-/**
- * VIEWMODEL: AdminViewModel
- * Review, Approve, Reject, and Manage Applications.
- */
+
+ // VIEWMODEL: AdminViewModel
+ // Review, Approve, Reject, and Manage Applications.
+
 class AdminViewModel extends ChangeNotifier {
   final SupabaseClient _supabase = Supabase.instance.client;
 
-  /**
+  
    
-   * Requirement: Display an overview of all submitted applications.
-   */
+   // Requirement: Display an overview of all submitted applications.
+   
   Future<List<Student>> fetchAllApplications() async {
     try {
       final response = await _supabase
@@ -28,10 +28,10 @@ class AdminViewModel extends ChangeNotifier {
     }
   }
 
-  /**
-   * UPDATE METHOD: Approves or Rejects an application.
-   * Requirement: Update application status based on administrative review.
-   */
+  
+   //UPDATE METHOD: Approves or Rejects an application.
+   //Requirement: Update application status based on administrative review.
+   
   Future<void> updateApplicationStatus(String id, String newStatus) async {
     try {
       await _supabase
@@ -45,10 +45,10 @@ class AdminViewModel extends ChangeNotifier {
     }
   }
 
-  /**
-   * DELETE METHOD: Removes invalid or erroneous records.
-   * Requirement: Ability to remove invalid applications from the system.
-   */
+  
+   // DELETE METHOD: Removes invalid or erroneous records.
+   // Requirement: Ability to remove invalid applications from the system.
+   
   Future<void> removeApplication(String id) async {
     try {
       await _supabase.from('students').delete().eq('id', id);
@@ -58,10 +58,10 @@ class AdminViewModel extends ChangeNotifier {
     }
   }
 
-  /**
-   * FILTER METHOD: Logic to filter the list based on status.
-   * Useful for UI implementation of Requirement 2.1.
-   */
+  
+   // FILTER METHOD: Logic to filter the list based on status.
+   // Useful for UI implementation of Requirement 2.1.
+   
   List<Student> filterApplications(List<Student> list, String criteria) {
     if (criteria == 'All') return list;
     return list.where((app) => app.status == criteria).toList();
