@@ -3,11 +3,11 @@ import 'package:provider/provider.dart';
 import '../viewmodels/auth_viewmodel.dart';
 import '../viewmodels/student_viewmodel.dart';
 
-/**
- * VIEW: AdminDashboard
- * Provides the administrative interface for managing applications.
- * Requirement 2.1: View, Review, Approve, Reject, Update, and Filter applications.
- */
+
+ // VIEW: AdminDashboard
+  //Provides the administrative interface for managing applications.
+ // Requirement 2.1: View, Review, Approve, Reject, Update, and Filter applications.
+ 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
 
