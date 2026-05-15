@@ -1,62 +1,70 @@
+import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../models/student_model.dart';
 
-class AdminStats {
-  final int totalApplications;
-  final int pendingCount;
-  final int approvedCount;
-  final int rejectedCount;
-  final String lastUpdated;
+/**
+ * VIEWMODEL: AdminViewModel
+ * This version contains the core business logic methods only.
+ * Requirement 2.1: Review, Approve, Reject, and Manage Applications.
+ */
+class AdminViewModel extends ChangeNotifier {
+  final SupabaseClient _supabase = Supabase.instance.client;
 
-  AdminStats({
-    required this.totalApplications,
-    required this.pendingCount,
-    required this.approvedCount,
-    required this.rejectedCount,
-    required this.lastUpdated,
-  });
-
-  // Factory to create stats from a list of Student applications
-  factory AdminStats.fromStudentList(List<dynamic> students) {
-    return AdminStats(
-      totalApplications: students.length,
-      pendingCount: students.where((s) => s.status == 'Pending').length,
-      approvedCount: students.where((s) => s.status == 'Approved').length,
-      rejectedCount: students.where((s) => s.status == 'Rejected').length,
-      lastUpdated: DateTime.now().toString(),
-    );
+  /**
+   * FETCH METHOD: Retrieves all applications for the admin overview.
+   * Requirement: Display an overview of all submitted applications.
+   */
+  Future<List<Student>> fetchAllApplications() async {
+    try {
+      final response = await _supabase
+          .from('students')
+          .select()
+          .order('id', ascending: false);
+      
+      return (response as List)
+          .map((json) => Student.fromJson(json))
+          .toList();
+    } catch (e) {
+      throw Exception("Failed to fetch applications: $e");
+    }
   }
 
-  // Initial empty state
-  factory AdminStats.empty() {
-    return AdminStats(
-      totalApplications: 0,
-      pendingCount: 0,
-      approvedCount: 0,
-      rejectedCount: 0,
-      lastUpdated: 'Never',
-    );
+  /**
+   * UPDATE METHOD: Approves or Rejects an application.
+   * Requirement: Update application status based on administrative review.
+   */
+  Future<void> updateApplicationStatus(String id, String newStatus) async {
+    try {
+      await _supabase
+          .from('students')
+          .update({'status': newStatus})
+          .eq('id', id);
+      
+      notifyListeners();
+    } catch (e) {
+      throw Exception("Failed to update status: $e");
+    }
   }
-}
 
+  /**
+   * DELETE METHOD: Removes invalid or erroneous records.
+   * Requirement: Ability to remove invalid applications from the system.
+   */
+  Future<void> removeApplication(String id) async {
+    try {
+      await _supabase.from('students').delete().eq('id', id);
+      notifyListeners();
+    } catch (e) {
+      throw Exception("Failed to delete record: $e");
+    }
+  }
 
-class AdminAction {
-  final String? id;
-  final String adminId;
-  final String actionType; // 'APPROVE', 'REJECT', 'DELETE'
-  final String targetApplicationId;
-  final DateTime timestamp;
-
-  AdminAction({
-    this.id,
-    required this.adminId,
-    required this.actionType,
-    required this.targetApplicationId,
-    required this.timestamp,
-  });
-
-  Map<String, dynamic> toJson() => {
-    'admin_id': adminId,
-    'action_type': actionType,
-    'target_id': targetApplicationId,
-    'created_at': timestamp.toIso8601String(),
-  };
+  /**
+   * FILTER METHOD: Logic to filter the list based on status.
+   * Useful for UI implementation of Requirement 2.1.
+   */
+  List<Student> filterApplications(List<Student> list, String criteria) {
+    if (criteria == 'All') return list;
+    return list.where((app) => app.status == criteria).toList();
+  }
 }
