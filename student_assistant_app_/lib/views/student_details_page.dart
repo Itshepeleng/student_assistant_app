@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:student_assistant_app_/viewmodel/student_viewmodel.dart';
 import 'package:student_assistant_app_/models/student.dart';
 import 'package:student_assistant_app_/viewmodel/auth_viewmodel.dart';
+import 'package:student_assistant_app_/routes/app_routes.dart';
 
 class StudentDetailsPage extends StatelessWidget {
   final Student student;
@@ -33,7 +34,7 @@ class StudentDetailsPage extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () => Navigator.pushNamed(context, '/edit',
+                      onPressed: () => Navigator.pushNamed(context, AppRoutes.editStudent,
                           arguments: student),
                       child: const Text("Edit Application"),
                     ),
@@ -71,7 +72,7 @@ class StudentDetailsPage extends StatelessWidget {
               onPressed: () {
                 Provider.of<StudentViewModel>(context, listen: false)
                     .deleteStudent(student.id);
-                Navigator.popUntil(context, ModalRoute.withName('/home'));
+                Navigator.popUntil(context, ModalRoute.withName(AppRoutes.home));
               },
               child: const Text("Delete", style: TextStyle(color: Colors.red))),
         ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_assistant_app_/viewmodel/auth_viewmodel.dart';
-import 'package:student_assistant_app_/views/home_view/home_view.dart';
+import 'package:student_assistant_app_/routes/app_routes.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -128,13 +128,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       if (success) {
 
-                        Navigator.pushReplacement(
+                        Navigator.pushReplacementNamed(
                           context,
-
-                          MaterialPageRoute(
-                            builder: (_) =>
-                            const HomeScreen(),
-                          ),
+                          AppRoutes.home,
                         );
 
                       } else {

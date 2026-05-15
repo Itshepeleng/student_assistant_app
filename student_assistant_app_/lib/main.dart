@@ -5,6 +5,7 @@ import 'viewmodel/auth_viewmodel.dart';
 import 'views/student_details_page.dart';
 import 'viewmodel/student_viewmodel.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'routes/app_routes.dart';
 
 /*void main() {
   runApp(
@@ -59,7 +60,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Student Manager',
-        home: const AuthWrapper(), // AuthWrapper decides login or home
+        initialRoute: AppRoutes.initial,
+        onGenerateRoute: onGenerateRoute,
       ),
     );
   }

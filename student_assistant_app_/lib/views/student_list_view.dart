@@ -3,8 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/student.dart';
 import '../viewmodel/student_viewmodel.dart';
 import '../viewmodel/auth_viewmodel.dart';
-import 'edit_student_page.dart';
-import 'student_details_page.dart';
+import '../routes/app_routes.dart';
 
 class StudentListView extends StatefulWidget {
   const StudentListView({super.key});
@@ -115,23 +114,26 @@ class _StudentListViewState extends State<StudentListView> {
   }
 
   void _navigateToAdd() {
-    Navigator.push(
+    Navigator.pushNamed(
       context,
-      MaterialPageRoute(builder: (_) => const EditStudentPage()),
+      AppRoutes.editStudent,
+      arguments: null,
     ).then((_) => context.read<StudentViewModel>().fetchStudents());
   }
 
   void _navigateToEdit(Student student) {
-    Navigator.push(
+    Navigator.pushNamed(
       context,
-      MaterialPageRoute(builder: (_) => EditStudentPage(student: student)),
+      AppRoutes.editStudent,
+      arguments: student,
     ).then((_) => context.read<StudentViewModel>().fetchStudents());
   }
 
   void _navigateToDetails(Student student) {
-    Navigator.push(
+    Navigator.pushNamed(
       context,
-      MaterialPageRoute(builder: (_) => StudentDetailsPage(student: student)),
+      AppRoutes.studentDetails,
+      arguments: student,
     );
   }
 }
