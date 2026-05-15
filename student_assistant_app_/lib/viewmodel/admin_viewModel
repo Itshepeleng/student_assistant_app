@@ -4,14 +4,13 @@ import '../models/student_model.dart';
 
 /**
  * VIEWMODEL: AdminViewModel
- * This version contains the core business logic methods only.
- * Requirement 2.1: Review, Approve, Reject, and Manage Applications.
+ * Review, Approve, Reject, and Manage Applications.
  */
 class AdminViewModel extends ChangeNotifier {
   final SupabaseClient _supabase = Supabase.instance.client;
 
   /**
-   * FETCH METHOD: Retrieves all applications for the admin overview.
+   
    * Requirement: Display an overview of all submitted applications.
    */
   Future<List<Student>> fetchAllApplications() async {
