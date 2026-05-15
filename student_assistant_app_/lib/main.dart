@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // Ensure these paths match your actual file structure
-import 'viewmodel/home_viewmodel.dart'; 
-import 'views/home_view/home_view.dart';
 import 'viewmodel/auth_viewmodel.dart';
 import 'views/student_details_page.dart';
 import 'viewmodel/student_viewmodel.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 /*void main() {
   runApp(
@@ -39,28 +38,29 @@ class StudentPortalApp extends StatelessWidget {
 }*/
 
 void main() async {
-WidgetsFlutterBinding.ensureInitialized();
-// Initialize Supabase with your credentials
-await Supabase.initialize(
-url: 'YOUR_SUPABASE_URL', // From Project Settings > API
-anonKey: 'YOUR_ANON_KEY', // From Project Settings > API
-);
-runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  // Initialize Supabase with your credentials
+  await Supabase.initialize(
+    url: 'https://ifhfnfuahmxtphbkvrip.supabase.co/rest/v1/',
+    anonKey: 'sb_publishable_HnOs9Yz-aMPxWaTOdNcKig_lkeUpXII' ,
+  );
+  runApp(const MyApp());
 }
+
 class MyApp extends StatelessWidget {
-const MyApp({super.key});
-@override
-Widget build(BuildContext context) {
-return MultiProvider(
-providers: [
-ChangeNotifierProvider(create: (_) => AuthViewModel()),
-ChangeNotifierProvider(create: (_) => StudentViewModel()),
-],
-child: MaterialApp(
-debugShowCheckedModeBanner: false,
-title: 'Student Manager',
-home: const AuthWrapper(), // AuthWrapper decides login or home
-),
-);
-}
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthViewModel()),
+        ChangeNotifierProvider(create: (_) => StudentViewModel()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Student Manager',
+        home: const AuthWrapper(), // AuthWrapper decides login or home
+      ),
+    );
+  }
 }
