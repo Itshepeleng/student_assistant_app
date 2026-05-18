@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../models/student_model.dart';
+import '../models/student.dart';
+import '../models/admin.dart';
 
 
  // VIEWMODEL: AdminViewModel

@@ -162,4 +162,11 @@ class StudentViewModel extends ChangeNotifier {
       return null;
     }
   }
+
+  Widget setFilter(String val) {
+    return Chip(
+      label: Text(val),
+      backgroundColor: Colors.indigo.shade100,
+    );
+  }
 }

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../viewmodels/auth_viewmodel.dart';
-import '../viewmodels/student_viewmodel.dart';
+import '../viewmodel/auth_viewmodel.dart';
+import '../viewmodel/student_viewmodel.dart';
+import '../models/student.dart';
+import '../routes/app_routes.dart';
+import 'edit_student_page.dart';
+import '../viewmodel/admin_viewModel.dart';
+
 
 
  // VIEW: AdminDashboard
@@ -21,7 +26,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
     super.initState();
     // Fetch all applications for the admin overview
     Future.microtask(() => 
-      context.read<StudentViewModel>().fetchStudents(isAdmin: true)
+      context.read<StudentViewModel>().fetchStudents()
     );
   }
 
@@ -29,6 +34,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
   Widget build(BuildContext context) {
     // Watch the StudentViewModel for data changes and filtering
     final vm = context.watch<StudentViewModel>();
+        final vm1 = context.watch<AdminViewModel>();
+
     
     return Scaffold(
       appBar: AppBar(
@@ -64,10 +71,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   "Applications: ${vm.students.length}", 
                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)
                 ),
-                Chip(
-                  label: Text(vm.currentFilter),
-                  backgroundColor: Colors.indigo.shade100,
-                ),
+                
               ],
             ),
           ),
@@ -90,7 +94,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                               child: Icon(Icons.person, color: _getStatusColor(s.status)),
                             ),
                             title: Text(s.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-                            subtitle: Text("Student #: ${s.studentNumber} | Status: ${s.status}"),
+                            subtitle: Text("Student #: ${s.id} | Status: ${s.status}"),
                             children: [
                               // Requirement: Review applicant information
                               Padding(
@@ -100,7 +104,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                   children: [
                                     const Text("Application Details", style: TextStyle(fontWeight: FontWeight.bold)),
                                     const Divider(),
-                                    Text("Requested Course: ${s.course}"),
+                                    Text("Requested Course: ${s.modules}"),
                                     const SizedBox(height: 20),
                                     
                                     // Requirement: Approve, Reject, or Remove invalid applications
@@ -108,7 +112,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: [
                                         ElevatedButton.icon(
-                                          onPressed: () => vm.updateStatus(s.id!, 'Approved'),
+                                          onPressed: () => vm1.updateApplicationStatus(s.id!, 'Approved'),
                                           icon: const Icon(Icons.check),
                                           label: const Text("Approve"),
                                           style: ElevatedButton.styleFrom(
@@ -117,7 +121,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                                           ),
                                         ),
                                         ElevatedButton.icon(
-                                          onPressed: () => vm.updateStatus(s.id!, 'Rejected'),
+                                          onPressed: () => vm1.updateApplicationStatus(s.id!, 'Rejected'),
                                           icon: const Icon(Icons.close),
                                           label: const Text("Reject"),
                                           style: ElevatedButton.styleFrom(

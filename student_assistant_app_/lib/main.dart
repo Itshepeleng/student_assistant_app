@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:student_assistant_app_/views/AdminView.dart';
 // Ensure these paths match your actual file structure
 import 'viewmodel/auth_viewmodel.dart';
 import 'views/student_details_page.dart';
 import 'viewmodel/student_viewmodel.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'routes/app_routes.dart';
+import 'views/AdminView.dart';
 
 /*void main() {
   runApp(
@@ -42,7 +44,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Initialize Supabase with your credentials
   await Supabase.initialize(
-    url: 'https://ifhfnfuahmxtphbkvrip.supabase.co/rest/v1/',
+    url: 'https://ifhfnfuahmxtphbkvrip.supabase.co/',
     anonKey: 'sb_publishable_HnOs9Yz-aMPxWaTOdNcKig_lkeUpXII' ,
   );
   runApp(const MyApp());
@@ -50,10 +52,13 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ///ChangeNotifierProvider(create: (_) => AdminDashboard()),
+
         ChangeNotifierProvider(create: (_) => AuthViewModel()),
         ChangeNotifierProvider(create: (_) => StudentViewModel()),
       ],

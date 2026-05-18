@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../viewmodels/student_viewmodel.dart';
+import '../viewmodel/student_viewmodel.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/student.dart';
 
@@ -101,6 +101,13 @@ class _AddStudentPageState extends State<AddStudentPage> {
                     currentYear: _selectedYear,
                     modules: _selectedModules.join(', '),
                     userId: userId,
+                    status: 'pending',
+                    id: '', // Let the backend generate the ID
+                    profilePictureUrl: null, // Handle profile picture upload separately
+                    createdAt:DateTime.now(),
+                    updatedAt:DateTime.now(),
+
+
                   );
 
                   await vm.addStudent(userId, student.toJson().toString());

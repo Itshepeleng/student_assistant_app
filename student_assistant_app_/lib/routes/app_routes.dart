@@ -5,6 +5,9 @@ import 'package:student_assistant_app_/views/student_list_view.dart';
 import 'package:student_assistant_app_/views/student_details_page.dart';
 import 'package:student_assistant_app_/views/edit_student_page.dart';
 import 'package:student_assistant_app_/views/auth_wrapper.dart';
+import 'package:student_assistant_app_/views/AdminView.dart';
+import 'package:student_assistant_app_/models/admin.dart';
+///import 'package:student_assistant_app_/viewmodel/admin_viewModel';
 
 /// Route names as constants for type-safe navigation
 class AppRoutes {
@@ -13,6 +16,8 @@ class AppRoutes {
   static const String home = '/home';
   static const String studentDetails = '/student-details';
   static const String editStudent = '/edit';
+  static const String admin = '/admin';
+
 }
 
 /// Route generator function
@@ -29,6 +34,10 @@ Route<dynamic>? Function(RouteSettings) get onGenerateRoute {
 
       case AppRoutes.home:
         return MaterialPageRoute(builder: (_) => const StudentListView());
+
+      case AppRoutes.admin:
+        return MaterialPageRoute(builder:(_) => const AdminDashboard());
+
 
       case AppRoutes.studentDetails:
         if (args is Student) {
